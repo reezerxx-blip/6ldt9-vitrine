@@ -1,0 +1,200 @@
+[
+ {
+  "src": "1.jpeg",
+  "dest": "assets/img/cagoule-noir-01.webp",
+  "thumb": "assets/thumbs/cagoule-noir-01.webp",
+  "vetement": "cagoule",
+  "couleur": "noir",
+  "nomCouleur": "Noir",
+  "bg": "#121214",
+  "accent": "#9A9AA2",
+  "plan": "porte"
+ },
+ {
+  "src": "2.jpeg",
+  "dest": "assets/img/cagoule-noir-02.webp",
+  "thumb": "assets/thumbs/cagoule-noir-02.webp",
+  "vetement": "cagoule",
+  "couleur": "noir",
+  "nomCouleur": "Noir",
+  "bg": "#121214",
+  "accent": "#9A9AA2",
+  "plan": "porte"
+ },
+ {
+  "src": "1.jpeg",
+  "dest": "assets/img/tshirt-bleu-01.webp",
+  "thumb": "assets/thumbs/tshirt-bleu-01.webp",
+  "vetement": "tshirt",
+  "couleur": "bleu",
+  "nomCouleur": "Bleu roi",
+  "bg": "#0B1A3D",
+  "accent": "#2F5BFF",
+  "plan": "porte"
+ },
+ {
+  "src": "2.jpeg",
+  "dest": "assets/img/tshirt-bleu-02.webp",
+  "thumb": "assets/thumbs/tshirt-bleu-02.webp",
+  "vetement": "tshirt",
+  "couleur": "bleu",
+  "nomCouleur": "Bleu roi",
+  "bg": "#0B1A3D",
+  "accent": "#2F5BFF",
+  "plan": "porte"
+ },
+ {
+  "src": "3.jpeg",
+  "dest": "assets/img/tshirt-bleu-03.webp",
+  "thumb": "assets/thumbs/tshirt-bleu-03.webp",
+  "vetement": "tshirt",
+  "couleur": "bleu",
+  "nomCouleur": "Bleu roi",
+  "bg": "#0B1A3D",
+  "accent": "#2F5BFF",
+  "plan": "porte"
+ },
+ {
+  "src": "4.jpeg",
+  "dest": "assets/img/tshirt-bleu-04.webp",
+  "thumb": "assets/thumbs/tshirt-bleu-04.webp",
+  "vetement": "tshirt",
+  "couleur": "bleu",
+  "nomCouleur": "Bleu roi",
+  "bg": "#0B1A3D",
+  "accent": "#2F5BFF",
+  "plan": "porte"
+ },
+ {
+  "src": "1.jpeg",
+  "dest": "assets/img/tshirt-noir-01.webp",
+  "thumb": "assets/thumbs/tshirt-noir-01.webp",
+  "vetement": "tshirt",
+  "couleur": "noir",
+  "nomCouleur": "Noir",
+  "bg": "#121214",
+  "accent": "#9A9AA2",
+  "plan": "porte"
+ },
+ {
+  "src": "2.jpeg",
+  "dest": "assets/img/tshirt-noir-02.webp",
+  "thumb": "assets/thumbs/tshirt-noir-02.webp",
+  "vetement": "tshirt",
+  "couleur": "noir",
+  "nomCouleur": "Noir",
+  "bg": "#121214",
+  "accent": "#9A9AA2",
+  "plan": "porte"
+ },
+ {
+  "src": "3.jpeg",
+  "dest": "assets/img/tshirt-noir-03.webp",
+  "thumb": "assets/thumbs/tshirt-noir-03.webp",
+  "vetement": "tshirt",
+  "couleur": "noir",
+  "nomCouleur": "Noir",
+  "bg": "#121214",
+  "accent": "#9A9AA2",
+  "plan": "porte"
+ },
+ {
+  "src": "4.jpeg",
+  "dest": "assets/img/tshirt-noir-04.webp",
+  "thumb": "assets/thumbs/tshirt-noir-04.webp",
+  "vetement": "tshirt",
+  "couleur": "noir",
+  "nomCouleur": "Noir",
+  "bg": "#121214",
+  "accent": "#9A9AA2",
+  "plan": "porte"
+ },
+ {
+  "src": "1.jpeg",
+  "dest": "assets/img/veste-bleu-01.webp",
+  "thumb": "assets/thumbs/veste-bleu-01.webp",
+  "vetement": "veste",
+  "couleur": "bleu",
+  "nomCouleur": "Noir et bleu roi",
+  "bg": "#0A1230",
+  "accent": "#2F5BFF",
+  "plan": "porte"
+ },
+ {
+  "src": "2.jpeg",
+  "dest": "assets/img/veste-bleu-02.webp",
+  "thumb": "assets/thumbs/veste-bleu-02.webp",
+  "vetement": "veste",
+  "couleur": "bleu",
+  "nomCouleur": "Noir et bleu roi",
+  "bg": "#0A1230",
+  "accent": "#2F5BFF",
+  "plan": "porte"
+ },
+ {
+  "src": "3.jpeg",
+  "dest": "assets/img/veste-bleu-03.webp",
+  "thumb": "assets/thumbs/veste-bleu-03.webp",
+  "vetement": "veste",
+  "couleur": "bleu",
+  "nomCouleur": "Noir et bleu roi",
+  "bg": "#0A1230",
+  "accent": "#2F5BFF",
+  "plan": "porte"
+ },
+ {
+  "src": "1.jpeg",
+  "dest": "assets/img/veste-rouge-01.webp",
+  "thumb": "assets/thumbs/veste-rouge-01.webp",
+  "vetement": "veste",
+  "couleur": "rouge",
+  "nomCouleur": "Noir et rouge",
+  "bg": "#1A0B0C",
+  "accent": "#E10600",
+  "plan": "porte"
+ },
+ {
+  "src": "2.jpeg",
+  "dest": "assets/img/veste-rouge-02.webp",
+  "thumb": "assets/thumbs/veste-rouge-02.webp",
+  "vetement": "veste",
+  "couleur": "rouge",
+  "nomCouleur": "Noir et rouge",
+  "bg": "#1A0B0C",
+  "accent": "#E10600",
+  "plan": "porte"
+ },
+ {
+  "src": "3.jpeg",
+  "dest": "assets/img/veste-rouge-03.webp",
+  "thumb": "assets/thumbs/veste-rouge-03.webp",
+  "vetement": "veste",
+  "couleur": "rouge",
+  "nomCouleur": "Noir et rouge",
+  "bg": "#1A0B0C",
+  "accent": "#E10600",
+  "plan": "porte"
+ },
+ {
+  "src": "4.jpeg",
+  "dest": "assets/img/veste-rouge-04.webp",
+  "thumb": "assets/thumbs/veste-rouge-04.webp",
+  "vetement": "veste",
+  "couleur": "rouge",
+  "nomCouleur": "Noir et rouge",
+  "bg": "#1A0B0C",
+  "accent": "#E10600",
+  "plan": "porte"
+ },
+ {
+  "src": "5.jpeg",
+  "dest": "assets/img/veste-rouge-05.webp",
+  "thumb": "assets/thumbs/veste-rouge-05.webp",
+  "vetement": "veste",
+  "couleur": "rouge",
+  "nomCouleur": "Noir et rouge",
+  "bg": "#1A0B0C",
+  "accent": "#E10600",
+  "plan": "porte"
+ }
+]
