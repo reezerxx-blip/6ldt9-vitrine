@@ -83,6 +83,26 @@
     }));
   });
 
+  /* Swipe tactile : glisser le doigt sur la photo = photo suivante/précédente (réutilise le clic sur les miniatures) */
+  $$('.gallery').forEach(g => {
+    const fm = $('.gallery__main', g); if (!fm) return;
+    let x0 = 0, y0 = 0, t0 = 0, on = false;
+    fm.addEventListener('touchstart', e => {
+      if (e.touches.length !== 1) { on = false; return; }
+      x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); on = true;
+    }, { passive: true });
+    fm.addEventListener('touchend', e => {
+      if (!on) return; on = false;
+      const t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.3 || Date.now() - t0 > 700) return;
+      const list = photos(g); if (list.length < 2) return;
+      const i = Math.max(0, list.findIndex(o => o.getAttribute('aria-current') === 'true'));
+      const n = list[(i + (dx < 0 ? 1 : list.length - 1)) % list.length];
+      n.click();
+      n.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+    }, { passive: true });
+  });
+
   /* Produits : coloris en pastilles (changent la photo, la planche, le fond et l'accent de la section) */
   $$('[data-product]').forEach(sec => {
     const name = $('.swatch-name', sec);
