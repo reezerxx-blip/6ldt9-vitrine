@@ -344,7 +344,7 @@ def hero_block():
 
 def footer_block():
     return (f'\n<div class="globe globe--foot" data-globe aria-hidden="true"></div>\n'
-            f'<p>Lyon, France<br>Streetwear moto, né sur les quais du Rhône.</p>\n'
+            f'<p>Lyon, France<br>BORN IN LYON. BUILT FOR THE STREETS<br>StreetWear &amp; culture urbaine</p>\n'
             f'<p><a class="ig ig--foot" href="{IG_URL}" target="_blank" rel="noopener noreferrer" aria-label="Instagram 6.ldt.9">{IG_SVG}<span>@6.ldt.9</span></a><br>'
             f'<a href="#hero">Retour en haut</a></p>\n'
             f'<p class="small">© 2026 6.LDT.9. Vitrine.</p>\n')

@@ -256,8 +256,8 @@ legend { font: 500 .75rem var(--font-mono); letter-spacing: .16em; text-transfor
 /* Globe 3D */
 .globe { position: relative; aspect-ratio: 1; line-height: 0; }
 .globe canvas, .globe img { display: block; width: 100%; height: 100%; }
-.globe--hero { position: absolute; top: clamp(60px, 9vh, 140px); left: var(--edge); width: min(44vw, 300px); pointer-events: none; }
-@media (min-width: 900px) { .globe--hero { width: min(26vw, 380px); } }
+.globe--hero { position: absolute; top: clamp(72px, 12vh, 160px); right: var(--edge); left: auto; width: min(30vw, 200px); pointer-events: none; }
+@media (min-width: 900px) { .globe--hero { width: min(22vw, 320px); } }
 
 /* ===== HUD layer : labels mono, cadres, scan, halo (ambiance technique, sobre) ===== */
 body { counter-reset: sec; }
