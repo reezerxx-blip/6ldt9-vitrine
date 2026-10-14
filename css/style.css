@@ -145,6 +145,9 @@ legend { font: 500 .75rem var(--font-mono); letter-spacing: .16em; text-transfor
 .footer a:hover { color: var(--accent); }
 .footer a.ig--foot { display: inline-flex; line-height: 1; }
 .small { font-size: .875rem; }
+.footer a.credit { margin-top: var(--s2); padding: 0 var(--s3); border: 1px solid var(--line); border-radius: 999px; color: var(--page-fg); text-decoration: none; letter-spacing: .04em; transition: color var(--dur-short) var(--ease), border-color var(--dur-short) var(--ease); }
+.footer a.credit:hover { color: var(--accent); border-color: var(--accent); }
+.footer a.credit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* Lightbox */
 .lightbox { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; background: rgb(14 14 16 / .94); padding: var(--s4); }

@@ -272,6 +272,7 @@ def nav(photos):
 
 SITE = "https://DOMAINE-A-DEFINIR.example"  # TODO Olivier : remplacer par le vrai domaine (index.html, robots.txt, sitemap.xml)
 IG_URL = "https://www.instagram.com/6.ldt.9/"
+DEV_URL = "https://reezerxx-blip.github.io/vitrine-developpeur/"
 IG_SVG = ('<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" '
           'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
           '<rect pathLength="1" x="3" y="3" width="18" height="18" rx="5"/><circle pathLength="1" cx="12" cy="12" r="4.2"/>'
@@ -347,7 +348,8 @@ def footer_block():
             f'<p>Lyon, France<br>BORN IN LYON. BUILT FOR THE STREETS<br>StreetWear &amp; culture urbaine</p>\n'
             f'<p><a class="ig ig--foot" href="{IG_URL}" target="_blank" rel="noopener noreferrer" aria-label="Instagram 6.ldt.9">{IG_SVG}<span>@6.ldt.9</span></a><br>'
             f'<a href="#hero">Retour en haut</a></p>\n'
-            f'<p class="small">© 2026 6.LDT.9. Vitrine.</p>\n')
+            f'<p class="small">© 2026 6.LDT.9. Vitrine.<br>'
+            f'<a class="credit" href="{DEV_URL}" target="_blank" rel="noopener noreferrer">Site conçu par Olivier <span aria-hidden="true">↗</span></a></p>\n')
 
 
 def patch_html(path, photos):
