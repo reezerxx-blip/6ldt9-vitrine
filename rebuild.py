@@ -360,7 +360,7 @@ def nav(photos):
 
 
 
-SITE = "https://reezerxx-blip.github.io/6ldt9-vitrine"  # adresse officielle (GitHub Pages) ; si vrai domaine : changer ici + robots.txt + sitemap.xml
+SITE = "https://6ldt9.vercel.app"  # adresse officielle (Vercel) ; si vrai domaine : changer ici + robots.txt + sitemap.xml
 IG_URL = "https://www.instagram.com/6.ldt.9/"
 DEV_URL = "https://reezerxx-blip.github.io/vitrine-developpeur/"
 IG_SVG = ('<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" '
