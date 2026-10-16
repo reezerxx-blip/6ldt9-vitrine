@@ -272,12 +272,81 @@ def cag_section(photos):
 </div></div></section>'''
 
 
+# Packs : photos = montages provisoires des photos produits (a remplacer par de vraies photos de packs)
+PACKS = [
+    dict(n=1, slug="tshirt-cagoule", tag="Le petit pack pour commencer",
+         items=["1 T-shirt au choix", "1 cagoule"], old="49,98 €", prix="44,99 €", eco="4,99 €",
+         photos=["tshirt-bleu-01", "cagoule-noir-01"], alt="Pack 1 6.LDT.9 : t-shirt bleu roi et cagoule noire"),
+    dict(n=2, slug="veste-tshirt", tag="L’association parfaite",
+         items=["1 veste au choix", "1 T-shirt au choix"], old="99,98 €", prix="89,99 €", eco="9,99 €",
+         photos=["veste-bleu-01", "tshirt-noir-01"], alt="Pack 2 6.LDT.9 : veste softshell noir et bleu, t-shirt noir"),
+    dict(n=3, slug="veste-tshirt-cagoule", tag="Le look complet à prix réduit",
+         items=["1 veste au choix", "1 T-shirt au choix", "1 cagoule"], old="119,97 €", prix="104,99 €", eco="14,98 €",
+         photos=["veste-rouge-01", "tshirt-noir-02", "cagoule-noir-01"],
+         alt="Pack 3 6.LDT.9 : veste softshell noir et rouge, t-shirt noir et cagoule noire"),
+    dict(n=4, slug="double-veste-cagoule-offerte", tag="2 vestes achetées = 1 cagoule offerte",
+         items=["2 vestes au choix, modèles mélangeables", "1 cagoule offerte"], old="159,97 €", prix="139,98 €", eco="19,99 €",
+         note="Offre valable dans la limite des stocks disponibles.",
+         photos=["veste-rouge-02", "veste-bleu-02", "cagoule-noir-02"],
+         alt="Pack 4 6.LDT.9 : deux vestes softshell, rouge et bleue, et cagoule noire offerte"),
+]
+PACK_W, PACK_H, PACK_GAP, PACK_BG = 960, 1200, 8, (18, 18, 20)
+
+
+def pack_name(pk):
+    return f"pack-{pk['n']}-{pk['slug']}.webp"
+
+
+def _cover(im, w, h, fy=0.3):
+    """Recadrage 'cover' ; fy = position verticale du cadrage (0 = haut)."""
+    s = max(w / im.width, h / im.height)
+    im = im.resize((round(im.width * s), round(im.height * s)), Image.LANCZOS)
+    l, t = (im.width - w) // 2, round((im.height - h) * fy)
+    return im.crop((l, t, l + w, t + h))
+
+
+def make_pack_images(out):
+    """Montage par pack a partir des photos produits deja generees dans assets/img."""
+    W, H, G = PACK_W, PACK_H, PACK_GAP
+    half = (W - G) // 2
+    for pk in PACKS:
+        srcs = [out / "assets" / "img" / f"{n}.webp" for n in pk["photos"]]
+        if len(srcs) == 2:  # deux colonnes
+            boxes = [(0, 0, half, H), (W - half, 0, W, H)]
+        else:  # grande colonne a gauche, deux cases empilees a droite
+            hh = (H - G) // 2
+            boxes = [(0, 0, half, H), (W - half, 0, W, hh), (W - half, H - hh, W, H)]
+        cv = Image.new("RGB", (W, H), PACK_BG)
+        for src, (x0, y0, x1, y1) in zip(srcs, boxes):
+            with Image.open(src) as im:
+                cv.paste(_cover(im.convert("RGB"), x1 - x0, y1 - y0), (x0, y0))
+        cv.save(out / "assets" / "img" / pack_name(pk), "WEBP", quality=WEBP_Q, method=6)
+
+
+def pack_card(pk):
+    items = "".join(f"<li>{esc(i)}</li>" for i in pk["items"])
+    note = f'\n<p class="pack__note">{esc(pk["note"])}</p>' if pk.get("note") else ""
+    return f'''<article class="pack" aria-labelledby="h-pack-{pk["n"]}">
+<figure class="pack__fig"><img src="assets/img/{pack_name(pk)}" alt="{esc(pk["alt"])}" width="{PACK_W}" height="{PACK_H}" loading="lazy" decoding="async"></figure>
+<div class="pack__body">
+<h3 id="h-pack-{pk["n"]}" class="pack__title">Pack {pk["n"]}</h3>
+<p class="pack__tag">{esc(pk["tag"])}</p>
+<ul class="pack__items">{items}</ul>
+<div class="buy">
+<p class="price"><s class="price__old"><span class="sr-only">Prix normal : </span>{pk["old"]}</s> <span class="price__now">{pk["prix"]}</span></p>
+<p class="pack__eco">Économie : {pk["eco"]}</p>{note}
+{more_link()}
+</div></div></article>'''
+
+
 def packs_section():
-    """Categorie Packs : coquille vide en attendant de definir les packs."""
-    return '''<section class="color-block packs" id="packs" data-bg="#121214" aria-labelledby="h-packs">
+    cards = "\n".join(pack_card(pk) for pk in PACKS)
+    return f'''<section class="color-block packs" id="packs" data-bg="#121214" aria-labelledby="h-packs">
 <div class="wrap">
-<div class="cag__head"><p class="eyebrow">Packs</p><h2 id="h-packs" class="display">Packs</h2></div>
-<p class="lead">Les premiers packs arrivent bientôt.</p>
+<div class="cag__head"><p class="eyebrow">Packs</p><h2 id="h-packs" class="display">Pack du moment</h2></div>
+<div class="packs__grid">
+{cards}
+</div>
 </div></section>'''
 
 
@@ -307,6 +376,12 @@ def head_block():
             ("Cagoule 6.LDT.9", "Cagoule noire 6.LDT.9.", "cagoule-noir-01", "Noir")):
         prods.append({"@type": "Product", "name": nom, "description": desc, "color": col,
                       "image": f"{SITE}/assets/img/{img_}.webp", "brand": {"@id": SITE + "/#org"}})
+    for pk in PACKS:
+        prods.append({"@type": "Product", "name": f"Pack {pk['n']} 6.LDT.9",
+                      "description": f"{pk['tag']} : " + ", ".join(pk["items"]) + ".",
+                      "image": f"{SITE}/assets/img/{pack_name(pk)}", "brand": {"@id": SITE + "/#org"},
+                      "offers": {"@type": "Offer", "price": pk["prix"].replace(" €", "").replace(",", "."),
+                                 "priceCurrency": "EUR", "availability": "https://schema.org/InStock", "url": SITE + "/#packs"}})
     graph = [{"@type": ["Organization", "ClothingStore"], "@id": SITE + "/#org", "name": "6.LDT.9",
               "description": DESC, "url": SITE + "/", "logo": SITE + "/assets/icons/icon-512.png",
               "image": SITE + "/og-image.jpg",
@@ -389,8 +464,13 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--tri", type=Path, default=DEFAULT_TRI)
     ap.add_argument("--out", type=Path, default=HERE)
+    ap.add_argument("--packs-only", action="store_true", help="regenere seulement les montages des packs")
     a = ap.parse_args()
     tri, out = a.tri.resolve(), a.out.resolve()
+    if a.packs_only:
+        make_pack_images(out)
+        print(f"OK : {len(PACKS)} montages de packs")
+        return
     if not tri.is_dir():
         raise SystemExit(f"Dossier de tri introuvable : {tri}")
     photos = scan(tri)
@@ -420,6 +500,7 @@ def main():
                 shutil.move(str(f), d / f.name)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+    make_pack_images(out)
     cat = [dict(src=p["src"], dest=f"assets/img/{p['name']}", thumb=f"assets/thumbs/{p['name']}",
                 vetement=p["vetement"], couleur=p["couleur"], nomCouleur=p["nomCouleur"],
                 bg=p["bg"], accent=p["accent"], plan=p["plan"]) for p in photos]
