@@ -102,6 +102,8 @@ a { color: inherit; }
 /* Prix + lien */
 .buy { display: grid; gap: var(--s3); max-width: 420px; }
 .price { font: italic 800 3rem/1 var(--font-display); margin: 0; }
+.price__old { font-size: .5em; font-weight: 600; color: var(--page-fg-mute); text-decoration: line-through; text-decoration-color: var(--accent); text-decoration-thickness: 2px; margin-right: .35em; }
+.price__now { color: var(--accent); }
 fieldset { border: 0; padding: 0; margin: 0; }
 legend { font: 500 .75rem var(--font-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--page-fg-mute); padding: 0; margin-bottom: var(--s2); }
 .swatch input { position: absolute; opacity: 0; inset: 0; }
@@ -144,6 +146,7 @@ legend { font: 500 .75rem var(--font-mono); letter-spacing: .16em; text-transfor
 .footer a { display: inline-block; min-height: 44px; line-height: 44px; }
 .footer a:hover { color: var(--accent); }
 .footer a.ig--foot { display: inline-flex; line-height: 1; }
+.footer a.credit { text-decoration: underline; text-underline-offset: 3px; }
 .small { font-size: .875rem; }
 .footer a.credit { margin-top: var(--s2); padding: 0 var(--s3); border: 1px solid var(--line); border-radius: 999px; color: var(--page-fg); text-decoration: none; letter-spacing: .04em; transition: color var(--dur-short) var(--ease), border-color var(--dur-short) var(--ease); }
 .footer a.credit:hover { color: var(--accent); border-color: var(--accent); }

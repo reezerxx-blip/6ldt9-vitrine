@@ -45,7 +45,16 @@ TEE = {  # couleur -> (valeur, libelle, pastille, fond de section)
     "blanc": ("blanc", "Blanc", "#ECE9E1", "#DAD7CF"),
 }
 UNIFORM = True  # cadre/grade commun des photos (body.uniform) ; False = retour a l'etat d'avant
-PRIX = {"veste": "69,99 €", "tshirt": "32,99 €", "cagoule": "24,99 €"}
+PRIX = {"veste": "69,99 €", "tshirt": "29,99 €", "cagoule": "19,99 €"}
+PRIX_BARRE = {"tshirt": "32,99 €", "cagoule": "24,99 €"}  # ancien prix affiche barre (effet promo)
+
+
+def prix_html(cle):
+    """Prix affiche ; si un ancien prix existe, il est barre a cote du prix actuel."""
+    if cle not in PRIX_BARRE:
+        return PRIX[cle]
+    return (f'<s class="price__old"><span class="sr-only">Ancien prix : </span>{PRIX_BARRE[cle]}</s> '
+            f'<span class="price__now">{PRIX[cle]}</span>')
 LEAD_VESTE = "Imperméable, coupe-vent et logo réfléchissant."
 GEN_RE = lambda name: re.compile(r"(<!--GEN:%s-->)(.*?)(<!--/GEN:%s-->)" % (name, name), re.S)
 
@@ -243,7 +252,7 @@ def veste_section(photos):
 
 def tee_section(photos):
     return product_section(photos, "tshirt", "tshirt", "T-shirt 6.LDT.9", "T-shirt", TEE, ("noir", "bleu", "blanc"),
-                           "Coton dense, logo brodé.", PRIX["tshirt"], "tee")
+                           "Coton dense, logo brodé.", prix_html("tshirt"), "tee")
 
 
 def cag_section(photos):
@@ -257,16 +266,26 @@ def cag_section(photos):
 <div class="cag__grid">
 {figs}
 <div class="cag__buy"><div class="buy">
-<p class="price">{PRIX["cagoule"]}</p>
+<p class="price">{prix_html("cagoule")}</p>
 {more_link()}
 </div></div>
 </div></div></section>'''
 
 
+def packs_section():
+    """Categorie Packs : coquille vide en attendant de definir les packs."""
+    return '''<section class="color-block packs" id="packs" data-bg="#121214" aria-labelledby="h-packs">
+<div class="wrap">
+<div class="cag__head"><p class="eyebrow">Packs</p><h2 id="h-packs" class="display">Packs</h2></div>
+<p class="lead">Les premiers packs arrivent bientôt.</p>
+</div></section>'''
+
+
 def nav(photos):
     items = [("veste", "Veste", "veste"),
              ("tshirt", "T-shirt", "tshirt"), ("cagoule", "Cagoule", "cagoule")]
-    return "".join(f'<a href="#{h}">{t}</a>' for h, t, v in items if group(photos, v))
+    links = "".join(f'<a href="#{h}">{t}</a>' for h, t, v in items if group(photos, v))
+    return links + '<a href="#packs">Packs</a>'
 
 
 
@@ -354,7 +373,7 @@ def footer_block():
 
 def patch_html(path, photos):
     s = path.read_text(encoding="utf8")
-    main = "\n".join(x for x in (veste_section(photos), tee_section(photos), cag_section(photos)) if x)
+    main = "\n".join(x for x in (veste_section(photos), tee_section(photos), cag_section(photos), packs_section()) if x)
     for name, content in (("head", head_block()), ("header", header_block(nav(photos))), ("hero", hero_block()),
                           ("footer", footer_block()), ("main", "\n" + main + "\n")):
         rx = GEN_RE(name)

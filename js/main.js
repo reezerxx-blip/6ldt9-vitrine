@@ -367,7 +367,8 @@
   });
 
   /* prix : compte jusqu'à la valeur à la première apparition */
-  $$('.price').forEach(p => {
+  $$('.price').forEach(box => {
+    const p = box.querySelector('.price__now') || box; /* promo : seul le prix actuel s'anime */
     const txt = p.textContent, m = txt.match(/[\d]+,[\d]+/);
     if (!m) return;
     const end = parseFloat(m[0].replace(',', '.')), o = { v: 0 };
