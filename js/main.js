@@ -435,25 +435,31 @@
   });
   if ($('.cag__b')) gsap.fromTo('.cag__b', { y: 48 }, { y: -16, ease: 'none', scrollTrigger: { trigger: '.cag__grid', start: 'top bottom', end: 'bottom top', scrub: true } });
 
-  /* packs : entrée en cascade (flou + montée), puis zoom lent des montages au défilement */
-  const packs = $$('.pack');
-  if (packs.length) {
-    gsap.set(packs, { autoAlpha: 0, y: 56, filter: 'blur(10px)' });
-    ST.batch(packs, { start: 'top 90%', once: true,
-      onEnter: b => gsap.to(b, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: .9, ease: E.out, stagger: .12, clearProps: 'filter,transform' }) });
-    packs.forEach(c => {
-      const fig = $('.pack__fig', c), old = $('.price__old', c), eco = $('.pack__eco', c);
-      gsap.fromTo($('img', fig), { scale: 1.16 }, { scale: 1, ease: 'none',
-        scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true } });
-      /* reflet : une bande de lumière balaie la photo quand elle atteint le milieu de l'écran (mobile compris) */
-      ST.create({ trigger: fig, start: 'center 60%', once: true, onEnter: () => fig.classList.add('is-lit') });
-      /* prix : la barre se trace sur l'ancien prix, puis l'économie apparaît */
-      gsap.set(old, { '--strike': '0%' }); gsap.set(eco, { autoAlpha: 0, y: 8, scale: .9 });
-      gsap.timeline({ scrollTrigger: { trigger: $('.buy', c), start: 'top 88%', once: true }, delay: .2 })
-        .to(old, { '--strike': '100%', duration: .5, ease: E.out })
-        .to(eco, { autoAlpha: 1, y: 0, scale: 1, duration: .5, ease: 'back.out(2.2)' }, '-=.1');
+  /* packs : « déballage ». Un volet par case du montage, avec le nom de l'article ;
+     les volets s'ouvrent l'un après l'autre quand la photo arrive à l'écran (déclenché au défilement, OK mobile).
+     Cases en % du montage 960x1200 de rebuild.py (colonnes 476 px, écart 8 px). */
+  const CASES = {
+    2: [[0, 0, 49.58, 100], [50.42, 0, 49.58, 100]],
+    3: [[0, 0, 49.58, 100], [50.42, 0, 49.58, 49.67], [50.42, 50.33, 49.58, 49.67]],
+  };
+  $$('.pack__fig[data-panels]').forEach(fig => {
+    const names = fig.dataset.panels.split('|'), boxes = CASES[names.length];
+    if (!boxes) return;
+    const shut = names.map((n, i) => {
+      const [x, y, w, h] = boxes[i], s = document.createElement('div');
+      s.className = 'pack__shutter'; s.setAttribute('aria-hidden', 'true');
+      s.style.cssText = `left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
+      s.innerHTML = `<span>${String(i + 1).padStart(2, '0')}</span><b>${n}</b>`;
+      fig.appendChild(s); return s;
     });
-  }
+    const img = $('img', fig);
+    gsap.set(img, { scale: 1.12 });
+    gsap.timeline({ scrollTrigger: { trigger: fig, start: 'top 65%', once: true },
+      onComplete: () => shut.forEach(s => s.remove()) })
+      .to(shut, { clipPath: 'inset(0 0 100% 0)', duration: .75, stagger: .22, ease: E.io }, .15)
+      .to(shut.map(s => s.children), { y: -40, autoAlpha: 0, duration: .5, stagger: .22, ease: E.io }, '<')
+      .to(img, { scale: 1, duration: 1.4, ease: E.out }, '<');
+  });
 
   /* lignes d'accent des blocs couleur (hors sections épinglées) */
   $$('.color-block').forEach(b => {
@@ -477,19 +483,6 @@
         ry(px * 6); rx(-py * 6); if (hud) { hx(-px * 10); hy(-py * 10); }
       });
       f.addEventListener('pointerleave', () => { rx(0); ry(0); if (hud) { hx(0); hy(0); } });
-    });
-
-    /* packs : tilt 3D + reflet qui suit le pointeur (adapté de « Optimized Tilt Card », sh20raj / 21st.dev) */
-    $$('.pack').forEach(c => {
-      const q = p => gsap.quickTo(c, p, { duration: .5, ease: 'power3.out' });
-      const rx = q('rotationX'), ry = q('rotationY'), sc = q('scale');
-      gsap.set(c, { transformPerspective: 1000 });
-      c.addEventListener('pointermove', e => {
-        const r = c.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-        c.style.setProperty('--px', `${px * 100}%`); c.style.setProperty('--py', `${py * 100}%`);
-        ry((px - .5) * 14); rx((.5 - py) * 14); sc(1.025);
-      });
-      c.addEventListener('pointerleave', () => { rx(0); ry(0); sc(1); });
     });
 
     /* CTA : aimantation dans un rayon de 70 px autour du bouton */

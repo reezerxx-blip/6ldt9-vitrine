@@ -276,18 +276,18 @@ def cag_section(photos):
 PACKS = [
     dict(n=1, slug="tshirt-cagoule", tag="Le petit pack pour commencer",
          items=["1 T-shirt au choix", "1 cagoule"], old="49,98 €", prix="44,99 €", eco="4,99 €",
-         photos=["tshirt-bleu-01", "cagoule-noir-01"], alt="Pack 1 6.LDT.9 : t-shirt bleu roi et cagoule noire"),
+         photos=["tshirt-bleu-01", "cagoule-noir-01"], panels=["T-shirt", "Cagoule"], alt="Pack 1 6.LDT.9 : t-shirt bleu roi et cagoule noire"),
     dict(n=2, slug="veste-tshirt", tag="L’association parfaite",
          items=["1 veste au choix", "1 T-shirt au choix"], old="99,98 €", prix="89,99 €", eco="9,99 €",
-         photos=["veste-bleu-01", "tshirt-noir-01"], alt="Pack 2 6.LDT.9 : veste softshell noir et bleu, t-shirt noir"),
+         photos=["veste-bleu-01", "tshirt-noir-01"], panels=["Veste", "T-shirt"], alt="Pack 2 6.LDT.9 : veste softshell noir et bleu, t-shirt noir"),
     dict(n=3, slug="veste-tshirt-cagoule", tag="Le look complet à prix réduit",
          items=["1 veste au choix", "1 T-shirt au choix", "1 cagoule"], old="119,97 €", prix="104,99 €", eco="14,98 €",
-         photos=["veste-rouge-01", "tshirt-noir-02", "cagoule-noir-01"],
+         photos=["veste-rouge-01", "tshirt-noir-02", "cagoule-noir-01"], panels=["Veste", "T-shirt", "Cagoule"],
          alt="Pack 3 6.LDT.9 : veste softshell noir et rouge, t-shirt noir et cagoule noire"),
     dict(n=4, slug="double-veste-cagoule-offerte", tag="2 vestes achetées = 1 cagoule offerte",
          items=["2 vestes au choix, modèles mélangeables", "1 cagoule offerte"], old="159,97 €", prix="139,98 €", eco="19,99 €",
          note="Offre valable dans la limite des stocks disponibles.", badge="Cagoule offerte",
-         photos=["veste-rouge-02", "veste-bleu-02", "cagoule-noir-02"],
+         photos=["veste-rouge-02", "veste-bleu-02", "cagoule-noir-02"], panels=["Veste", "Veste", "Cagoule offerte"],
          alt="Pack 4 6.LDT.9 : deux vestes softshell, rouge et bleue, et cagoule noire offerte"),
 ]
 PACK_W, PACK_H, PACK_GAP, PACK_BG = 960, 1200, 8, (18, 18, 20)
@@ -329,7 +329,7 @@ def pack_card(pk):
     badge = f'<span class="pack__badge">{esc(pk["badge"])}</span>' if pk.get("badge") else ""
     hot = " pack--hot" if pk.get("badge") else ""
     return f'''<article class="pack{hot}" aria-labelledby="h-pack-{pk["n"]}">
-<figure class="pack__fig">{badge}<img src="assets/img/{pack_name(pk)}" alt="{esc(pk["alt"])}" width="{PACK_W}" height="{PACK_H}" loading="lazy" decoding="async"></figure>
+<figure class="pack__fig" data-panels="{esc("|".join(pk["panels"]))}">{badge}<img src="assets/img/{pack_name(pk)}" alt="{esc(pk["alt"])}" width="{PACK_W}" height="{PACK_H}" loading="lazy" decoding="async"></figure>
 <div class="pack__body">
 <h3 id="h-pack-{pk["n"]}" class="pack__title">Pack {pk["n"]}</h3>
 <p class="pack__tag">{esc(pk["tag"])}</p>
