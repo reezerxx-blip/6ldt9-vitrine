@@ -135,8 +135,18 @@ legend { font: 500 .75rem var(--font-mono); letter-spacing: .16em; text-transfor
 .packs__grid { display: grid; gap: var(--s4); grid-template-columns: 1fr; }
 @media (min-width: 640px) { .packs__grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1280px) { .packs__grid { grid-template-columns: repeat(4, 1fr); } }
-.pack { display: flex; flex-direction: column; background: color-mix(in oklab, var(--page-bg) 92%, var(--page-fg)); box-shadow: var(--shadow); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: border-color .2s var(--ease), transform .2s var(--ease); }
+.pack { --pack-bg: color-mix(in oklab, var(--page-bg) 92%, var(--page-fg)); position: relative; display: flex; flex-direction: column; background: var(--pack-bg); box-shadow: var(--shadow); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: border-color .2s var(--ease), transform .2s var(--ease); }
 @media (hover: hover) and (pointer: fine) { .pack:hover { border-color: var(--accent); transform: translateY(-4px); } }
+/* reflet qui suit le pointeur (--px/--py posés par main.js) */
+.pack::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; mix-blend-mode: overlay; background: radial-gradient(circle at var(--px, 50%) var(--py, 50%), color-mix(in oklab, var(--accent) 35%, transparent), transparent 60%); transition: opacity .3s var(--ease); }
+.pack:hover::after { opacity: 1; }
+.pack__fig { overflow: hidden; position: relative; }
+.pack__badge { position: absolute; top: var(--s3); left: var(--s3); z-index: 1; padding: var(--s1) var(--s2); background: var(--accent); color: var(--accent-ink, #fff); font: 600 .6875rem/1.4 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; border-radius: var(--radius); }
+/* Pack 4 : liseré rouge qui tourne autour de la carte */
+@property --ang { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+.pack--hot { border-color: transparent; background: linear-gradient(var(--pack-bg), var(--pack-bg)) padding-box, conic-gradient(from var(--ang), var(--line) 0 62%, var(--accent) 80%, var(--line) 98%) border-box; animation: pack-spin 4s linear infinite; }
+@keyframes pack-spin { to { --ang: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .pack--hot { animation: none; } }
 .pack__fig { margin: 0; aspect-ratio: 4 / 5; background: var(--surface); }
 .pack__fig img { width: 100%; height: 100%; object-fit: cover; }
 .pack__body { display: flex; flex-direction: column; flex: 1; gap: var(--s2); padding: var(--s4); }

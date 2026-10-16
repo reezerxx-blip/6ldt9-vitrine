@@ -435,6 +435,16 @@
   });
   if ($('.cag__b')) gsap.fromTo('.cag__b', { y: 48 }, { y: -16, ease: 'none', scrollTrigger: { trigger: '.cag__grid', start: 'top bottom', end: 'bottom top', scrub: true } });
 
+  /* packs : entrée en cascade (flou + montée), puis zoom lent des montages au défilement */
+  const packs = $$('.pack');
+  if (packs.length) {
+    gsap.set(packs, { autoAlpha: 0, y: 56, filter: 'blur(10px)' });
+    ST.batch(packs, { start: 'top 90%', once: true,
+      onEnter: b => gsap.to(b, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: .9, ease: E.out, stagger: .12, clearProps: 'filter' }) });
+    packs.forEach(c => gsap.fromTo($('.pack__fig img', c), { scale: 1.16 }, { scale: 1, ease: 'none',
+      scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true } }));
+  }
+
   /* lignes d'accent des blocs couleur (hors sections épinglées) */
   $$('.color-block').forEach(b => {
     const w = $('.wrap', b);
@@ -457,6 +467,19 @@
         ry(px * 6); rx(-py * 6); if (hud) { hx(-px * 10); hy(-py * 10); }
       });
       f.addEventListener('pointerleave', () => { rx(0); ry(0); if (hud) { hx(0); hy(0); } });
+    });
+
+    /* packs : tilt 3D + reflet qui suit le pointeur (adapté de « Optimized Tilt Card », sh20raj / 21st.dev) */
+    $$('.pack').forEach(c => {
+      const q = p => gsap.quickTo(c, p, { duration: .5, ease: 'power3.out' });
+      const rx = q('rotationX'), ry = q('rotationY'), sc = q('scale');
+      gsap.set(c, { transformPerspective: 1000 });
+      c.addEventListener('pointermove', e => {
+        const r = c.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        c.style.setProperty('--px', `${px * 100}%`); c.style.setProperty('--py', `${py * 100}%`);
+        ry((px - .5) * 14); rx((.5 - py) * 14); sc(1.025);
+      });
+      c.addEventListener('pointerleave', () => { rx(0); ry(0); sc(1); });
     });
 
     /* CTA : aimantation dans un rayon de 70 px autour du bouton */

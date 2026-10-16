@@ -286,7 +286,7 @@ PACKS = [
          alt="Pack 3 6.LDT.9 : veste softshell noir et rouge, t-shirt noir et cagoule noire"),
     dict(n=4, slug="double-veste-cagoule-offerte", tag="2 vestes achetées = 1 cagoule offerte",
          items=["2 vestes au choix, modèles mélangeables", "1 cagoule offerte"], old="159,97 €", prix="139,98 €", eco="19,99 €",
-         note="Offre valable dans la limite des stocks disponibles.",
+         note="Offre valable dans la limite des stocks disponibles.", badge="Cagoule offerte",
          photos=["veste-rouge-02", "veste-bleu-02", "cagoule-noir-02"],
          alt="Pack 4 6.LDT.9 : deux vestes softshell, rouge et bleue, et cagoule noire offerte"),
 ]
@@ -326,8 +326,10 @@ def make_pack_images(out):
 def pack_card(pk):
     items = "".join(f"<li>{esc(i)}</li>" for i in pk["items"])
     note = f'\n<p class="pack__note">{esc(pk["note"])}</p>' if pk.get("note") else ""
-    return f'''<article class="pack" aria-labelledby="h-pack-{pk["n"]}">
-<figure class="pack__fig"><img src="assets/img/{pack_name(pk)}" alt="{esc(pk["alt"])}" width="{PACK_W}" height="{PACK_H}" loading="lazy" decoding="async"></figure>
+    badge = f'<span class="pack__badge">{esc(pk["badge"])}</span>' if pk.get("badge") else ""
+    hot = " pack--hot" if pk.get("badge") else ""
+    return f'''<article class="pack{hot}" aria-labelledby="h-pack-{pk["n"]}">
+<figure class="pack__fig">{badge}<img src="assets/img/{pack_name(pk)}" alt="{esc(pk["alt"])}" width="{PACK_W}" height="{PACK_H}" loading="lazy" decoding="async"></figure>
 <div class="pack__body">
 <h3 id="h-pack-{pk["n"]}" class="pack__title">Pack {pk["n"]}</h3>
 <p class="pack__tag">{esc(pk["tag"])}</p>
