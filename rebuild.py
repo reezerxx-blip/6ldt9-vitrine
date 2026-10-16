@@ -360,30 +360,37 @@ def nav(photos):
 
 
 
-SITE = "https://DOMAINE-A-DEFINIR.example"  # TODO Olivier : remplacer par le vrai domaine (index.html, robots.txt, sitemap.xml)
+SITE = "https://reezerxx-blip.github.io/6ldt9-vitrine"  # adresse officielle (GitHub Pages) ; si vrai domaine : changer ici + robots.txt + sitemap.xml
 IG_URL = "https://www.instagram.com/6.ldt.9/"
 DEV_URL = "https://reezerxx-blip.github.io/vitrine-developpeur/"
 IG_SVG = ('<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" '
           'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
           '<rect pathLength="1" x="3" y="3" width="18" height="18" rx="5"/><circle pathLength="1" cx="12" cy="12" r="4.2"/>'
           '<circle cx="17.4" cy="6.6" r=".6" fill="currentColor"/></svg>')
-DESC = "6.LDT.9, marque lyonnaise de streetwear moto : veste softshell, t-shirt et cagoule."
+TITLE = "6.LDT.9 | Streetwear moto à Lyon : vestes, t-shirts, packs"
+DESC = ("6.LDT.9, marque lyonnaise de streetwear moto : veste softshell, t-shirt brodé, cagoule "
+        "et packs à prix réduit. Commande directe sur Instagram.")
+
+
+def offer(prix, ancre):
+    return {"@type": "Offer", "price": prix.replace(" €", "").replace(",", "."), "priceCurrency": "EUR",
+            "availability": "https://schema.org/InStock", "url": f"{SITE}/#{ancre}"}
 
 
 def head_block():
     prods = []
-    for nom, desc, img_, col in (
-            ("Veste softshell 6.LDT.9", "Veste softshell imperméable et coupe-vent, logo réfléchissant. Coloris noir et rouge, noir et bleu.", "veste-rouge-01", "Noir et rouge, noir et bleu"),
-            ("T-shirt 6.LDT.9", "T-shirt en coton dense, logo brodé. Coloris noir et bleu roi.", "tshirt-noir-01", "Noir, bleu roi"),
-            ("Cagoule 6.LDT.9", "Cagoule noire 6.LDT.9.", "cagoule-noir-01", "Noir")):
+    for nom, desc, img_, col, cle in (
+            ("Veste softshell 6.LDT.9", "Veste softshell imperméable et coupe-vent, logo réfléchissant. Coloris noir et rouge, noir et bleu.", "veste-rouge-01", "Noir et rouge, noir et bleu", "veste"),
+            ("T-shirt 6.LDT.9", "T-shirt en coton dense, logo brodé. Coloris noir et bleu roi.", "tshirt-noir-01", "Noir, bleu roi", "tshirt"),
+            ("Cagoule 6.LDT.9", "Cagoule noire 6.LDT.9.", "cagoule-noir-01", "Noir", "cagoule")):
         prods.append({"@type": "Product", "name": nom, "description": desc, "color": col,
-                      "image": f"{SITE}/assets/img/{img_}.webp", "brand": {"@id": SITE + "/#org"}})
+                      "image": f"{SITE}/assets/img/{img_}.webp", "brand": {"@id": SITE + "/#org"},
+                      "offers": offer(PRIX[cle], cle)})
     for pk in PACKS:
         prods.append({"@type": "Product", "name": f"Pack {pk['n']} 6.LDT.9",
                       "description": f"{pk['tag']} : " + ", ".join(pk["items"]) + ".",
                       "image": f"{SITE}/assets/img/{pack_name(pk)}", "brand": {"@id": SITE + "/#org"},
-                      "offers": {"@type": "Offer", "price": pk["prix"].replace(" €", "").replace(",", "."),
-                                 "priceCurrency": "EUR", "availability": "https://schema.org/InStock", "url": SITE + "/#packs"}})
+                      "offers": offer(pk["prix"], "packs")})
     graph = [{"@type": ["Organization", "ClothingStore"], "@id": SITE + "/#org", "name": "6.LDT.9",
               "description": DESC, "url": SITE + "/", "logo": SITE + "/assets/icons/icon-512.png",
               "image": SITE + "/og-image.jpg",
@@ -391,7 +398,7 @@ def head_block():
               "sameAs": [IG_URL]}] + prods
     ld = json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, indent=1)
     return f"""
-<title>6.LDT.9 | Streetwear moto, Lyon</title>
+<title>{TITLE}</title>
 <meta name="description" content="{DESC}">
 <meta name="theme-color" content="#121214">
 <meta name="color-scheme" content="dark">
@@ -401,11 +408,10 @@ def head_block():
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link rel="preload" as="image" href="assets/img/hero-bw-m.webp" imagesrcset="assets/img/hero-bw-m.webp 1000w, assets/img/hero-bw.webp 1410w" imagesizes="100vw" fetchpriority="high">
-<!-- TODO domaine : decommenter et remplacer {SITE} par le vrai domaine -->
-<!-- <link rel="canonical" href="{SITE}/"> -->
-<!-- <meta property="og:url" content="{SITE}/"> -->
-<!-- <meta property="og:image" content="{SITE}/og-image.jpg"> -->
-<!-- <meta name="twitter:image" content="{SITE}/og-image.jpg"> -->
+<link rel="canonical" href="{SITE}/">
+<meta property="og:url" content="{SITE}/">
+<meta property="og:image" content="{SITE}/og-image.jpg">
+<meta name="twitter:image" content="{SITE}/og-image.jpg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="6.LDT.9">
 <meta property="og:locale" content="fr_FR">

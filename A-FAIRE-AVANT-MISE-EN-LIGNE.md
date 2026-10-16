@@ -1,12 +1,10 @@
-﻿# A faire avant la mise en ligne
+﻿# A faire (SEO)
 
-Le domaine est un placeholder : `DOMAINE-A-DEFINIR.example`.
+Adresse officielle actuelle : `https://reezerxx-blip.github.io/6ldt9-vitrine` (GitHub Pages).
+Canonical, og:url, og:image, twitter:image, JSON-LD, sitemap.xml et robots.txt l'utilisent deja.
 
-1. **Domaine** : dans `rebuild.py`, ligne `SITE = "https://DOMAINE-A-DEFINIR.example"`, mettre le vrai domaine, puis lancer `python rebuild.py`. Cela met a jour le JSON-LD (url, logo, image, @id) dans `index.html`.
-2. **Canonical, og:url, og:image, twitter:image** : dans `rebuild.py`, fonction `head_block()`, les 4 balises sont en commentaire HTML (`<!-- TODO domaine -->`). Les decommenter, puis `python rebuild.py`.
-3. **og:image** : l'image est `og-image.jpg` (1200x630) a la racine ; l'URL absolue sera `https://VRAI-DOMAINE/og-image.jpg`.
-4. **sitemap.xml** : remplacer le domaine dans la balise `<loc>` (et supprimer le commentaire TODO).
-5. **robots.txt** : remplacer le domaine dans la ligne `Sitemap:`.
-6. **Google Search Console** : ajouter la propriete du domaine, envoyer `sitemap.xml`, demander l'indexation de la page d'accueil.
-7. **Google Business Profile** : creer la fiche (marque de Lyon, lien Instagram, site), puis ajouter l'URL de la fiche dans `sameAs` du JSON-LD (`head_block()` dans `rebuild.py`). Ne pas publier d'adresse ou de telephone : le seul contact est Instagram.
-8. **Hebergement** : HTTPS obligatoire, cache long sur `assets/` et `css/`, `js/`.
+1. **Google Search Console** : ajouter la propriete "prefixe d'URL" `https://reezerxx-blip.github.io/6ldt9-vitrine/`, envoyer `sitemap.xml`, demander l'indexation de la page d'accueil. Sur GitHub Pages, le `robots.txt` du sous-dossier n'est pas lu par Google : le sitemap doit etre envoye a la main dans la Search Console.
+2. **Google Business Profile** : creer la fiche (marque de Lyon, lien Instagram, site), puis ajouter l'URL de la fiche dans `sameAs` du JSON-LD (`head_block()` dans `rebuild.py`). Ne pas publier d'adresse ou de telephone : le seul contact est Instagram.
+3. **Lien depuis Instagram** : mettre l'adresse du site dans la bio Instagram (premier lien entrant, aide l'indexation).
+4. **Texte de marque** : ajouter un court paragraphe "A propos" (histoire de la marque, Lyon, moto), environ 100 a 150 mots. La page compte ~240 mots visibles, c'est peu.
+5. **Vrai domaine (plus tard)** : changer `SITE` dans `rebuild.py`, la ligne `Sitemap:` de `robots.txt` et la balise `<loc>` de `sitemap.xml`, puis regenerer.
