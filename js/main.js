@@ -440,9 +440,19 @@
   if (packs.length) {
     gsap.set(packs, { autoAlpha: 0, y: 56, filter: 'blur(10px)' });
     ST.batch(packs, { start: 'top 90%', once: true,
-      onEnter: b => gsap.to(b, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: .9, ease: E.out, stagger: .12, clearProps: 'filter' }) });
-    packs.forEach(c => gsap.fromTo($('.pack__fig img', c), { scale: 1.16 }, { scale: 1, ease: 'none',
-      scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true } }));
+      onEnter: b => gsap.to(b, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: .9, ease: E.out, stagger: .12, clearProps: 'filter,transform' }) });
+    packs.forEach(c => {
+      const fig = $('.pack__fig', c), old = $('.price__old', c), eco = $('.pack__eco', c);
+      gsap.fromTo($('img', fig), { scale: 1.16 }, { scale: 1, ease: 'none',
+        scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true } });
+      /* reflet : une bande de lumière balaie la photo quand elle atteint le milieu de l'écran (mobile compris) */
+      ST.create({ trigger: fig, start: 'center 60%', once: true, onEnter: () => fig.classList.add('is-lit') });
+      /* prix : la barre se trace sur l'ancien prix, puis l'économie apparaît */
+      gsap.set(old, { '--strike': '0%' }); gsap.set(eco, { autoAlpha: 0, y: 8, scale: .9 });
+      gsap.timeline({ scrollTrigger: { trigger: $('.buy', c), start: 'top 88%', once: true }, delay: .2 })
+        .to(old, { '--strike': '100%', duration: .5, ease: E.out })
+        .to(eco, { autoAlpha: 1, y: 0, scale: 1, duration: .5, ease: 'back.out(2.2)' }, '-=.1');
+    });
   }
 
   /* lignes d'accent des blocs couleur (hors sections épinglées) */
